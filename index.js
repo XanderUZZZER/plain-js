@@ -119,13 +119,13 @@ function ConvertToChar(digit) {
     case 9:
       return '9'
     default:
-      return
+      return 'error'
   }
 }
 
 function IntToString(num) {
-  if (typeof num !== 'number')
-    return 'incorrect number'
+  if (typeof num !== 'number' || (num % 1) !== 0)
+    return 'incorrect integer number'
   resultString = []
   resultSign = ''
   if (num < 0) {
@@ -141,6 +141,6 @@ function IntToString(num) {
   return resultString
 }
 
-let test = 3452347
-
-console.log(IntToString(test));
+let test = -12685
+console.log('Input number: ', test);
+console.log('Output string:', IntToString(test));
