@@ -91,7 +91,6 @@ let hash = {}
 incomingArray.forEach(item => hash[item.id] = item)
 incomingArray.forEach(item => hash[item.parentId] !== undefined && hash[item.parentId].children.push(item.id))
 
-
 console.table(incomingArray)
 
 function ConvertToChar(digit) {
@@ -120,24 +119,28 @@ function ConvertToChar(digit) {
     case 9:
       return '9'
     default:
-      return ''
+      return
   }
 }
 
 function IntToString(num) {
+  if (typeof num !== 'number')
+    return 'incorrect number'
   resultString = []
   resultSign = ''
   if (num < 0) {
     resultSign = '-'
   }
   while (num !== 0) {
-    reminder = num % 10 // ? do we need separate var
-    num = (num - reminder) / 10  // ? may be better to have exnternal function
-    reminder = ConvertToChar(reminder)
-    resultString.unshift(reminder) // ? unshift var or result of convert function
+    reminder = num % 10                 // ? do we need separate var
+    num = (num - reminder) / 10         // ? may be better to have exnternal function
+    reminder = ConvertToChar(reminder)  // ? unshift var or result of convert function
+    resultString = reminder + resultString
   }
-  resultString.unshift(resultSign)
+  resultString = resultSign + resultString
   return resultString
 }
 
-console.log(IntToString(-52361));
+let test = 3452347
+
+console.log(IntToString(test));
