@@ -44,9 +44,9 @@ let output = input.filter(item =>
   item.group &&
   item.group.some(grp => grp.id === 2)
 )
-console.table(output);
+//console.table(output)
 
-
+// fill in all the elements (which are parents) with the corresponding children
 let incomingArray = [
   {
     id: 1,
@@ -79,20 +79,19 @@ let incomingArray = [
     children: []
   }
 ]
-console.table(incomingArray);
-
-let m = new Map()
-// incomingArray.forEach(item => {
-//   m.set(item.parentId, incomingArray.find(itm => itm.id === item.parentId).children.push(item.id))
-// })
-m.clear()
-
+//console.log('Incoming Array')
+//console.table(incomingArray)
 let hash = {}
 incomingArray.forEach(item => hash[item.id] = item)
 incomingArray.forEach(item => hash[item.parentId] !== undefined && hash[item.parentId].children.push(item.id))
+//console.log('Modified incoming Array')
+//console.table(incomingArray)
 
-console.table(incomingArray)
-
+/**
+ * Converts digit to a string character (digit sign is ignored)
+ * @param {number} digit - Incoming digit
+ * @returns {string} string character containing converted incoming value
+ */
 function ConvertToChar(digit) {
   if (digit < 0) {
     digit = digit * (-1)
@@ -123,6 +122,11 @@ function ConvertToChar(digit) {
   }
 }
 
+/**
+ * Converts integer number to its string representation, fractional numbers are ignored
+ * @param {number} num - integer value to convert
+ * @returns {string} string containing converted incoming value
+ */
 function IntToString(num) {
   if (typeof num !== 'number' || (num % 1) !== 0)
     return 'incorrect integer number'
@@ -134,7 +138,7 @@ function IntToString(num) {
   while (num !== 0) {
     reminder = num % 10                 // ? do we need separate var
     num = (num - reminder) / 10         // ? may be better to have exnternal function
-    reminder = ConvertToChar(reminder)  // ? unshift var or result of convert function
+    reminder = ConvertToChar(reminder)
     resultString = reminder + resultString
   }
   resultString = resultSign + resultString
@@ -142,5 +146,125 @@ function IntToString(num) {
 }
 
 let test = -12685
-console.log('Input number: ', test);
-console.log('Output string:', IntToString(test));
+//console.log('Input number: ', test);
+//console.log('Output string:', IntToString(test));
+
+let graph = [
+  {
+    id: 1,
+    parentId: null
+  },
+  {
+    id: 2,
+    parentId: 1
+  },
+  {
+    id: 3,
+    parentId: 1
+  },
+  {
+    id: 4,
+    parentId: 1
+  },
+  {
+    id: 5,
+    parentId: 2
+  },
+  {
+    id: 6,
+    parentId: 2
+  },
+  {
+    id: 7,
+    parentId: 4
+  },
+  {
+    id: 8,
+    parentId: 5
+  },
+  {
+    id: 9,
+    parentId: 5
+  },
+  {
+    id: 10,
+    parentId: 5
+  },
+  {
+    id: 11,
+    parentId: 7
+  },
+  {
+    id: 12,
+    parentId: 7
+  },
+  {
+    id: 13,
+    parentId: 7
+  },
+  {
+    id: 14,
+    parentId: 8
+  },
+  {
+    id: 15,
+    parentId: 8
+  },
+  {
+    id: 16,
+    parentId: 10
+  },
+  {
+    id: 17,
+    parentId: 10
+  },
+  {
+    id: 18,
+    parentId: 14
+  },
+  {
+    id: 19,
+    parentId: 14
+  }
+]
+console.log('Original graph');
+console.table(graph)
+
+let graphHash = {}
+
+graph.forEach(item => {
+  graphHash[item.id] = item
+  graphHash[item.id].children = []
+})
+graph.forEach(item => {
+  if (graphHash[item.parentId] !== undefined) {
+    graphHash[item.parentId].children.push(item.id)
+  }
+})
+
+console.log('Hashed graph');
+console.table(graphHash)
+function findParent(node1Id, node2Id, graph) {
+  node1 = graph[node1Id]
+  node2 = graph[node2Id]
+  if (node1 === undefined || node2 === undefined) {
+    return `nodes with id: ${node1Id} and id: ${node2Id} do not have common ancestors`
+  }
+  let visited = {}
+
+  while (node1.parentId !== null) {
+    visited[node1.parentId] = true
+    node1 = graph[node1.parentId]
+  }
+
+  while (visited[node2.parentId] !== true) {
+    node2 = graph[node2.parentId]
+  }
+  return graph[node2.parentId].id
+}
+
+console.log('Lowest common ancestor for 19 and 16 items: ', findParent(19, 16, graphHash))
+console.log('Lowest common ancestor for 16 and 19 items: ', findParent(16, 19, graphHash))
+console.log('Lowest common ancestor for 4 and 8 items: ', findParent(4, 8, graphHash))
+console.log('Lowest common ancestor for 14 and 12 items: ', findParent(14, 12, graphHash))
+console.log('Lowest common ancestor for 14 and 120 items: ', findParent(14, 120, graphHash))
