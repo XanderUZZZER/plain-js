@@ -152,7 +152,7 @@ let test = -12685
 let graph = [
   {
     id: 1,
-    parentId: null
+
   },
   {
     id: 2,
@@ -252,7 +252,7 @@ function findParent(node1Id, node2Id, graph) {
   }
   let visited = {}
 
-  while (node1.parentId !== null) {
+  while (node1.parentId !== undefined) {
     visited[node1.parentId] = true
     node1 = graph[node1.parentId]
   }
@@ -268,3 +268,63 @@ console.log('Lowest common ancestor for 16 and 19 items: ', findParent(16, 19, g
 console.log('Lowest common ancestor for 4 and 8 items: ', findParent(4, 8, graphHash))
 console.log('Lowest common ancestor for 14 and 12 items: ', findParent(14, 12, graphHash))
 console.log('Lowest common ancestor for 14 and 120 items: ', findParent(14, 120, graphHash))
+console.log('Lowest common ancestor for 3 and 19 items: ', findParent(3, 19, graphHash))
+
+// Alex has unique way to gamble in the casino every time he is betting 1$ or all-in.
+// Every night Alex decides on limited times he will bet all-in
+// One time Alex got into the casino and he won all his bets.
+// Write code which accept the money Alex has left the casino, and the limited times he can bet all-in. The code should calculate the minimum rounds that Alex had in that lucky night.
+
+// For instance:
+// MaxAllin = 1, TotalMoney = 9
+// Took Alex 5 rounds
+// Alex came in with 1$
+// Round1 = 2$
+// Round2 = 3$
+// Round3 = 4$
+// Round4 = 8$ - all-in
+// Round5 = 9$
+function minimumRounds(maxAllin, totalMoney) {
+  let rounds = 0
+  let results = []
+  if ((totalMoney % 2) !== 0) {
+    results.unshift(`${totalMoney}$`)
+    totalMoney--
+    rounds++
+  }
+
+  while (totalMoney > 2) {
+    if (maxAllin !== 0) {
+      results.unshift(`${totalMoney}$ - all-in`)
+      totalMoney = totalMoney - (totalMoney / 2)
+      maxAllin--
+      rounds++
+    }
+    else {
+      results.unshift(`${totalMoney}$`)
+      totalMoney--
+      rounds++
+    }
+  }
+  results.unshift(`${totalMoney}$`)
+  for (let index = 0; index < results.length; index++) {
+    console.log(`Round ${index + 1}: `, results[index])
+  }
+  rounds++
+  return rounds
+}
+
+console.log('Allins - 1, total money - 9, rounds - ', minimumRounds(1, 9));
+console.log('Allins - 2, total money - 9, rounds - ', minimumRounds(2, 9));
+// console.log('Allins - 0, total money - 12, rounds - ', minimumRounds(0, 12));
+// console.log('Allins - 0, total money - 5, rounds - ', minimumRounds(0, 5));
+// console.log('Allins - 1, total money - 5, rounds - ', minimumRounds(1, 5));
+// console.log('Allins - 1, total money - 2, rounds - ', minimumRounds(1, 2));
+// console.log('Allins - 0, total money - 2, rounds - ', minimumRounds(0, 2));
+// console.log('Allins - 0, total money - 4, rounds - ', minimumRounds(0, 4));
+// console.log('Allins - 1, total money - 4, rounds - ', minimumRounds(1, 4));
+// console.log('Allins - 4, total money - 4, rounds - ', minimumRounds(4, 4));
+// console.log('Allins - 1, total money - 3, rounds - ', minimumRounds(1, 3));
+
+
+
