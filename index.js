@@ -325,6 +325,8 @@ console.log('Allins - 2, total money - 9, rounds - ', minimumRounds(2, 9));
 // console.log('Allins - 1, total money - 4, rounds - ', minimumRounds(1, 4));
 // console.log('Allins - 4, total money - 4, rounds - ', minimumRounds(4, 4));
 // console.log('Allins - 1, total money - 3, rounds - ', minimumRounds(1, 3));
+console.log('Allins - 1, total money - 1, rounds - ', minimumRounds(1, 1));
+
 
 
 
