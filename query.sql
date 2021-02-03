@@ -16,7 +16,8 @@ INSERT Types
 VALUES
   ('Country'),
   ('City'),
-  ('Street');
+  ('Street'),
+  ('Building');
 
 INSERT Locations
 VALUES
@@ -44,7 +45,11 @@ VALUES
   (9, 'Brick Lane', 3),
   (9, 'Oxford', 3),
   (10, 'Dubllin str', 3),
-  (11, 'HempShire str', 3);
+  (11, 'HempShire str', 3),
+  (12, 'Building 2', 4),
+  (12, 'Building 4', 4),
+  (12, 'Building 5', 4),
+  (12, 'Building 7', 4);
 
 -- Define the CTE(temporary table) name and column list
 WITH
@@ -58,10 +63,11 @@ WITH
       WHERE   Title = 'Ukraine'
     UNION ALL
       -- Recursive member that references expression_name
-      SELECT t.*
-      FROM Locations t INNER JOIN
-        ukraine ukr ON t.ParentID = ukr.ID
+      SELECT loc.*
+      FROM Locations loc INNER JOIN
+        ukraine ukr ON loc.ParentID = ukr.ID
   )
 -- Define the main query
 SELECT *
-FROM ukraine;
+FROM ukraine
+WHERE TypeID = 3;
